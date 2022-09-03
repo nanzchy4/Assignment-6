@@ -7,10 +7,80 @@ const loadCatagory = () =>{
 const displayCatagory =(data) =>{
     const catagoryContainer = document.getElementById('catagory-container');
     data.forEach(data => {
+        // console.log(data);
+
+        //showing all the news catagory
         const liItem = document.createElement('li');
         liItem.classList.add('d-md-inline','me-5')//'list-inline-item', 
-        liItem.innerText = data.category_name;
+        // liItem.innerText = data.category_name;
+        liItem.innerHTML= `
+        <span onclick="loadNews('${data.category_id}')">${data.category_name}</span
+        `;
         catagoryContainer.appendChild(liItem);
+        
     });
+}
+
+const loadNews = (catagoryId) =>{
+    // console.log(catagoryId);
+    fetch(`https://openapi.programming-hero.com/api/news/category/${catagoryId}`)
+    .then(res => res.json())
+    .then(data => displayNews(data.data));
+
+}
+
+const displayNews = data => {
+    const articleContainer = document.getElementById('article-container');
+    articleContainer.innerHTML=``;
+    data.forEach(data =>{
+ 
+        const singleArticle = document.createElement('div');
+        singleArticle.classList.add('col-sm-12');
+        singleArticle.innerHTML = `
+        <div class="card" >
+        <div class="card-body d-flex ">
+          <div class="flex-shrink-0"> 
+          <img src="${data.thumbnail_url}">   
+          </div>
+          <div class="flex-grow-1 ms-5 mt-4">
+          <h5 class="card-title">${data.title}</h5>
+          <p class="card-text">${data.details}</p>
+          <img src="${data.author ? data.author.img : ''}" class="author-img">
+          
+          <span class="me-5">${data.author.name ? data.author.name : 'Author Name Not Found'}</span>
+          
+
+          <span class="mx-5"><i class="fa-regular fa-eye"></i>${data.total_view ? data.total_view : 'Data Not Available'}</span>
+          <span onclick="loadModal('${data._id}')" class="mx-5" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-circle-chevron-right" style="font-size:20px"></i></span>
+          </div>
+        </div>
+      </div>
+        `;
+        //<span class="d-block">${data.author ? data.author.published_date : 'Date Not Found'}</span>
+
+        articleContainer.appendChild(singleArticle);
+
+    })
+}
+
+const loadModal = id =>{
+    console.log(id);
+    fetch(`https://openapi.programming-hero.com/api/news/${id}`)
+    .then(res => res.json())
+    .then(data => displayModal(data.data[0]));
+}
+
+const displayModal = data =>{
+    // console.log(data);
+    const modalTitle = document.getElementById('exampleModalLabel');
+    modalTitle.innerText = `${data.author.name ? data.author.name : 'Author Name Not Found'}`;
+
+    const newsDetails = document.getElementById('news-Details');
+    newsDetails.innerHTML = `
+    <p>View: ${data.total_view ? data.total_view : "Data Not Available"}</p>
+    <p>Badge: ${data.rating ?  data.rating.badge : "Data Not Available"}</p>
+    <p>Number: ${data.rating ?  data.rating.number : "Data Not Available"}</p>
+    
+    ` ;
 }
 loadCatagory();
