@@ -14,7 +14,7 @@ const displayCatagory =(data) =>{
         liItem.classList.add('d-md-inline','me-5')//'list-inline-item', 
         // liItem.innerText = data.category_name;
         liItem.innerHTML= `
-        <span onclick="loadNews('${data.category_id}')">${data.category_name}</span
+        <span onclick="loadNews('${data.category_id}','${data.category_name}')">${data.category_name}</span
         `;
         
 
@@ -23,18 +23,21 @@ const displayCatagory =(data) =>{
     });
 }
 
-const loadNews = (catagoryId) =>{
+const loadNews = (catagoryId, catagoryName) =>{
     const spinElement = document.getElementById('spin');
         spinElement.classList.remove("d-none");
     // console.log(catagoryId);
     fetch(`https://openapi.programming-hero.com/api/news/category/${catagoryId}`)
     .then(res => res.json())
-    .then(data => displayNews(data.data));
+    .then(data => displayNews(data.data, catagoryName));
+
 
 }
 
-const displayNews = data => {
+const displayNews = (data, catagoryName) => {
 
+    const inputField = document.getElementById('item-amount');
+    inputField.value = `${data.length > 0 ? data.length : "No News"}  items found for category ${catagoryName}`;
 
     const articleContainer = document.getElementById('article-container');
     articleContainer.innerHTML=``;
@@ -66,8 +69,12 @@ const displayNews = data => {
 
         articleContainer.appendChild(singleArticle);
 
-    })
+        
 
+    })
+    // for(data of datas){
+    // 
+    // }
     const spinElement = document.getElementById('spin');
         spinElement.classList.add("d-none");
 }
@@ -93,3 +100,4 @@ const displayModal = data =>{
     ` ;
 }
 loadCatagory();
+
