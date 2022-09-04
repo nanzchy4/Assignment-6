@@ -37,21 +37,21 @@ const displayNews = data => {
         const singleArticle = document.createElement('div');
         singleArticle.classList.add('col-sm-12');
         singleArticle.innerHTML = `
-        <div class="card" >
+        <div class="card d-block" >
         <div class="card-body d-flex ">
           <div class="flex-shrink-0"> 
           <img src="${data.thumbnail_url}">   
           </div>
           <div class="flex-grow-1 ms-5 mt-4">
           <h5 class="card-title">${data.title}</h5>
-          <p class="card-text">${data.details}</p>
+          <p class="card-text">${data.details.length >600 ? data.details.slice(0,600).concat('...') : data.details }</p>
           <img src="${data.author ? data.author.img : ''}" class="author-img">
           
           <span class="me-5">${data.author.name ? data.author.name : 'Author Name Not Found'}</span>
           
 
           <span class="mx-5"><i class="fa-regular fa-eye"></i>${data.total_view ? data.total_view : 'Data Not Available'}</span>
-          <span onclick="loadModal('${data._id}')" class="mx-5" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-circle-chevron-right" style="font-size:20px"></i></span>
+          <span onclick="loadModal('${data._id}')" class="mx-5" data-bs-toggle="modal" data-bs-target="#exampleModal"><i class="fa-solid fa-circle-chevron-right" style="font-size:22px"></i></span>
           </div>
         </div>
       </div>
