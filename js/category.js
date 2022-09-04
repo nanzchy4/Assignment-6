@@ -8,12 +8,12 @@ const loadCatagory = () =>{
 const displayCatagory =(data) =>{
     const catagoryContainer = document.getElementById('catagory-container');
     data.forEach(data => {
-        // console.log(data);
+       
 
         //showing all the news catagory
         const liItem = document.createElement('li');
-        liItem.classList.add('d-md-inline','me-5')//'list-inline-item', 
-        // liItem.innerText = data.category_name;
+        liItem.classList.add('d-md-inline','me-5');
+        
         liItem.innerHTML= `
         <span onclick="loadNews('${data.category_id}','${data.category_name}')">${data.category_name}</span
         `;
@@ -27,7 +27,7 @@ const displayCatagory =(data) =>{
 const loadNews = (catagoryId, catagoryName) =>{
     const spinElement = document.getElementById('spin');
         spinElement.classList.remove("d-none");
-    // console.log(catagoryId);
+    
     fetch(`https://openapi.programming-hero.com/api/news/category/${catagoryId}`)
     .then(res => res.json())
     .then(data => displayNews(data.data, catagoryName))
@@ -67,22 +67,15 @@ const displayNews = (data, catagoryName) => {
         </div>
       </div>
         `;
-        //<span class="d-block">${data.author ? data.author.published_date : 'Date Not Found'}</span>
-
-        articleContainer.appendChild(singleArticle);
-
-        
-
-    })
-    // for(data of datas){
-    // 
-    // }
+       articleContainer.appendChild(singleArticle);
+  })
+    
     const spinElement = document.getElementById('spin');
         spinElement.classList.add("d-none");
 }
 
 const loadModal = id =>{
-    console.log(id);
+
     fetch(`https://openapi.programming-hero.com/api/news/${id}`)
     .then(res => res.json())
     .then(data => displayModal(data.data[0]))
@@ -90,7 +83,7 @@ const loadModal = id =>{
 }
 
 const displayModal = data =>{
-    // console.log(data);
+    
     const modalTitle = document.getElementById('exampleModalLabel');
     modalTitle.innerText = `${data.author.name ? data.author.name : 'Author Name Not Found'}`;
 
