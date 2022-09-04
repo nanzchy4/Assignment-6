@@ -16,12 +16,16 @@ const displayCatagory =(data) =>{
         liItem.innerHTML= `
         <span onclick="loadNews('${data.category_id}')">${data.category_name}</span
         `;
+        
+
         catagoryContainer.appendChild(liItem);
         
     });
 }
 
 const loadNews = (catagoryId) =>{
+    const spinElement = document.getElementById('spin');
+        spinElement.classList.remove("d-none");
     // console.log(catagoryId);
     fetch(`https://openapi.programming-hero.com/api/news/category/${catagoryId}`)
     .then(res => res.json())
@@ -30,6 +34,8 @@ const loadNews = (catagoryId) =>{
 }
 
 const displayNews = data => {
+
+
     const articleContainer = document.getElementById('article-container');
     articleContainer.innerHTML=``;
     data.forEach(data =>{
@@ -61,6 +67,9 @@ const displayNews = data => {
         articleContainer.appendChild(singleArticle);
 
     })
+
+    const spinElement = document.getElementById('spin');
+        spinElement.classList.add("d-none");
 }
 
 const loadModal = id =>{
